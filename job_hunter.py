@@ -68,26 +68,28 @@ jobs = [
         "url": "https://example.com/job2"
     }
 ]
-job_id = job["url"]
+for job in jobs:
 
-if job_id not in seen:
+    job_id = job["url"]
 
-    seen.append(job_id)
+    if job_id not in seen:
 
-    save_seen(seen)
+        seen.append(job_id)
 
-    save_job(
-        job["title"],
-        job["source"],
-        job["url"]
-    )
+        save_seen(seen)
 
-    send_telegram(
-        f"""🚨 NEW JOB
+        save_job(
+            job["title"],
+            job["source"],
+            job["url"]
+        )
+
+        send_telegram(
+            f"""🚨 NEW JOB
 
 Role: {job['title']}
 Source: {job['source']}
 
 {job['url']}
 """
-    )
+        )
