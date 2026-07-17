@@ -21,13 +21,16 @@ def send_telegram(message):
 
 
 def load_seen():
+
     if not os.path.exists("seen_jobs.json"):
         return []
 
-    with open("seen_jobs.json", "r") as f:
-        return json.load(f)
+    try:
+        with open("seen_jobs.json", "r") as f:
+            return json.load(f)
 
-
+    except:
+        return []
 def save_seen(data):
     with open("seen_jobs.json", "w") as f:
         json.dump(data, f)
