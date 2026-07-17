@@ -4,8 +4,8 @@ import os
 import csv
 from datetime import datetime
 
-BOT_TOKEN = "8922676320:AAHNGNiNlSu0QIt-9UnwVl8TYiqRBsvqsDU"
-CHAT_ID = "6610169350"
+BOT_TOKEN = os.environ["BOT_TOKEN"]
+CHAT_ID = os.environ["CHAT_ID"]
 
 KEYWORDS = [
     "godot",
@@ -56,12 +56,18 @@ def save_job(title, source, url):
 seen = load_seen()
 
 # TEST JOB
-job = {
-    "title": "Gameplay Programmer",
-    "source": "Test Source",
-    "url": "https://example.com/job1"
-}
-
+jobs = [
+    {
+        "title": "Gameplay Programmer",
+        "source": "Test Source",
+        "url": "https://example.com/job1"
+    },
+    {
+        "title": "Godot Developer",
+        "source": "Test Source",
+        "url": "https://example.com/job2"
+    }
+]
 job_id = job["url"]
 
 if job_id not in seen:
