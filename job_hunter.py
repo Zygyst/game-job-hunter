@@ -4,18 +4,11 @@ import os
 import csv
 from datetime import datetime
 
+from sources.workwithindies import get_jobs
+
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
 
-KEYWORDS = [
-    "godot",
-    "gdscript",
-    "roblox",
-    "luau",
-    "unreal",
-    "game developer",
-    "gameplay programmer"
-]
 
 def send_telegram(message):
     requests.post(
@@ -26,16 +19,19 @@ def send_telegram(message):
         }
     )
 
+
 def load_seen():
-    if not os.path.exists("seen_jobs.[]"):
+    if not os.path.exists("seen_jobs.json"):
         return []
 
-    with open("seen_jobs.[]", "r") as f:
+    with open("seen_jobs.json", "r") as f:
         return json.load(f)
 
+
 def save_seen(data):
-    with open("seen_jobs.[]", "w") as f:
+    with open("seen_jobs.json", "w") as f:
         json.dump(data, f)
+
 
 def save_job(title, source, url):
     file_exists = os.path.exists("jobs.csv")
@@ -53,24 +49,14 @@ def save_job(title, source, url):
             url
         ])
 
+
 seen = load_seen()
 
-# TEST JOB
-jobs = [
-    {
-        "title": "Gameplay Programmer",
-        "source": "Test Source",
-        "url": "https://example.com/job1"
-    },
-    {
-        "title": "Godot Developer",
-        "source": "Test Source",
-        "url": "https://example.com/job2"
-    }
-]
+jobs = get_jobs()
+
 for job in jobs:
 
-    job_id = job["url"]
+    job_id = f"{job['source']}:{job['title']}"
 
     if job_id not in seen:
 
@@ -85,7 +71,7 @@ for job in jobs:
         )
 
         send_telegram(
-            f"""🚨 NEW JOB
+            f"""🚨 NEW GAME DEV JOB
 
 Role: {job['title']}
 Source: {job['source']}
