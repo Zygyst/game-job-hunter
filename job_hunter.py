@@ -4,7 +4,8 @@ import os
 import csv
 from datetime import datetime
 
-from sources.workwithindies import get_jobs
+from sources.workwithindies import get_jobs as get_wwi_jobs
+from sources.arc import get_jobs as get_arc_jobs
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
@@ -55,7 +56,10 @@ def save_job(title, source, url):
 
 seen = load_seen()
 
-jobs = get_jobs()
+jobs = []
+
+jobs.extend(get_wwi_jobs())
+jobs.extend(get_arc_jobs())
 
 for job in jobs:
 
